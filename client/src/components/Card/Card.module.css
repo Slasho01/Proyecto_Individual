@@ -1,0 +1,7 @@
+.image{
+    margin: auto;
+    border-radius: 10px;
+    display: inline-block;
+    width: 90%;
+    max-width: 88%;
+}

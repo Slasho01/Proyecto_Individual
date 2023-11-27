@@ -14,7 +14,7 @@ export default function NavBar({onSearch}) {
       </Link>
         <Link to='/' className={style.links}>Inicio</Link>
         <Link to='/dogs' className={style.links}>All Dogs</Link>
-        <SearchBar onSearch={onSearch}/>
+        <SearchBar/>
     </nav>
   );
 }

@@ -1,7 +1,22 @@
+.container{
+    min-height: 377px;
+    max-height: 380px;
+    display: inline-block;
+    background-color: rgba(222, 184, 135, 0.4);
+    border: 5px;
+    border-style:double;
+    border-radius: 10px;
+    overflow: hidden;
+    color: rgb(255, 255, 255);
+    margin: 50px 25px 5px 15px;
+    max-width: 19.8rem;
+    transition: 2s;
+}
 .image{
     margin: auto;
     border-radius: 10px;
     display: inline-block;
-    width: 90%;
+    width:45%;
     max-width: 88%;
+    margin-top: 10px;
 }

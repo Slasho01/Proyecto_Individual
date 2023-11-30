@@ -27,15 +27,21 @@ async function getDogs(req, res) {
             const dogs = data.map(dogo => {
                 const { id, image, name, height, weight, temperament, life_span } = dogo;
                 //retornamos los perros que se asignaran a dogs
-                return { id, image:image.url, name, height, weight, temperament, life_span };
+                return { id, image: image.url, name, height, weight, temperament, life_span };
             });
             /** Datos de la base de datos **/
             //asignamos a la constante getDbd todos los perros encontrados en la tabla Dog"Modelo" 
-            const getDbd = await Dog.findAll();
+            const getDbd = await Dog.findAll(
+                { include: [{ model: Temperament, attributes: ['name'] }], }
+            );
+            const dog = getDbd.map((dbdog) => {
+                const { id, name, image, height, weight, life_span, temperaments } = dbdog.toJSON();
+                const temperamentos = temperaments.map((temperament) => temperament.name).join(', ');
+                return { id, name, image, height, weight, life_span, temperamentos }
+            })
             //Combinamos los perros encontrados de la api, mas los encontrados en la base de datos en la constante
             //"combined" para despues retornarla con el status
-            console.log(getDbd)
-            const combined = [...dogs, ...getDbd.map(dbdog => dbdog.toJSON())]
+            const combined = [...dogs, ...dog]
             return res.status(200).json(combined);
         }
     } catch (error) {
@@ -59,7 +65,7 @@ async function getDogsById(req, res) {
                     }]
                 })
             if (dbDog) {
-                const { id, image, name, height, weight, life_span , temperaments } = dbDog.toJSON();
+                const { id, image, name, height, weight, life_span, temperaments } = dbDog.toJSON();
                 const temperamentos = temperaments.map(temperament => temperament.name).join(', ');
                 const dog = { id, name, image, height, weight, life_span, temperamentos };
                 return res.status(200).json(dog);
@@ -78,7 +84,7 @@ async function getDogsById(req, res) {
     }
 }
 const getDogsByName = async (req, res) => {
-    
+
 }
 
 /*

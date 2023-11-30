@@ -20,13 +20,14 @@ const {
         });
         const uniqueSet = new Set(tempsList);
         const arrayConvert = [...uniqueSet];
-        if(!arrayConvert){
-            await Temperament.bulkCreate(arrayConvert.map((name) => ({ name })));
-        }else{
-            const allTemperament = await Temperament.findAll();
-            return res.status(201).json(allTemperament);
-
+        if(arrayConvert.length > 0){
+            const exist = await Temperament.findAll();
+            if (exist.length === 0) {
+                await Temperament.bulkCreate(arrayConvert.map((name) => ({ name })));
+              }
         }
+        const allTemperament = await Temperament.findAll();
+        return res.status(201).json(allTemperament);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

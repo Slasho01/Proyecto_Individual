@@ -20,11 +20,13 @@ const {
         });
         const uniqueSet = new Set(tempsList);
         const arrayConvert = [...uniqueSet];
-        if(arrayConvert){
+        if(!arrayConvert){
             await Temperament.bulkCreate(arrayConvert.map((name) => ({ name })));
+        }else{
+            const allTemperament = await Temperament.findAll();
+            return res.status(201).json(allTemperament);
+
         }
-        const allTemperament = await Temperament.findAll();
-        return res.status(201).json(allTemperament);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

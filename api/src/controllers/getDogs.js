@@ -25,15 +25,16 @@ async function getDogs(req, res) {
             /** Datos de la API **/
             //recorremos data y asignamos a la variable dogs cada objeto encontrado
             const dogs = data.map(dogo => {
-                const { id, image, name, height, weight, life_span } = dogo;
+                const { id, image, name, height, weight, temperament, life_span } = dogo;
                 //retornamos los perros que se asignaran a dogs
-                return { id, image:image.url, name, height, weight, life_span };
+                return { id, image:image.url, name, height, weight, temperament, life_span };
             });
             /** Datos de la base de datos **/
             //asignamos a la constante getDbd todos los perros encontrados en la tabla Dog"Modelo" 
             const getDbd = await Dog.findAll();
             //Combinamos los perros encontrados de la api, mas los encontrados en la base de datos en la constante
             //"combined" para despues retornarla con el status
+            console.log(getDbd)
             const combined = [...dogs, ...getDbd.map(dbdog => dbdog.toJSON())]
             return res.status(200).json(combined);
         }

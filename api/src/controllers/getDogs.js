@@ -83,9 +83,6 @@ async function getDogsById(req, res) {
         res.status(500).json({ error: error.message })
     }
 }
-const getDogsByName = async (req, res) => {
-
-}
 
 /*
  *
@@ -119,5 +116,4 @@ module.exports = {
     getDogs,
     getDogsById,
     postDog,
-    getDogsByName
 };

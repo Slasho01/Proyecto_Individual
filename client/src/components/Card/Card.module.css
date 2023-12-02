@@ -1,6 +1,6 @@
 .container{
-    min-height: 377px;
-    max-height: 380px;
+    width: 350px;
+    height: 350px;
     display: inline-block;
     background-color: rgba(222, 184, 135, 0.4);
     border: 5px;
@@ -8,15 +8,25 @@
     border-radius: 10px;
     overflow: hidden;
     color: rgb(255, 255, 255);
-    margin: 50px 25px 5px 15px;
+    margin: 20px 20px 15px 15px;
     max-width: 19.8rem;
     transition: 2s;
 }
+.container:hover  {
+    -webkit-transform:scale(1.2);transform:scale(1.2);
+    background-color: rgb(222, 184, 135);;
+    .name{
+        color: rgb(237, 240, 232);
+        font-size:auto
+    }
+}
 .image{
-    margin: auto;
+    margin: 20px;
     border-radius: 10px;
     display: inline-block;
-    width:45%;
-    max-width: 88%;
-    margin-top: 10px;
+    width:200px;
+    height:125px;
+}
+.text{
+    font-size: 15px;
 }

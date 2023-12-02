@@ -5,6 +5,7 @@ import axios from "axios";
 import Inicio from './components/Inicio/Inicio'
 import Dogs from './components/Dogs/Dogs'
 import NavBar from './components/Navbar/Nav'
+import Details from './components/Details/Details'
 import Cards from './components/Cards/Cards';
 const URL = 'http://localhost:3001/dogs/';
 
@@ -13,7 +14,6 @@ function App() {
   const [dogs, setDogs] = useState([]);
   useEffect(() => {
     const allDogs = async () => {
-      
       try {
         const dogos = await axios(URL)
         if (dogos.data) {
@@ -22,7 +22,7 @@ function App() {
         else {
           window.alert('No hay datos')
         }
-        
+
       } catch (error) {
         console.error('Error al obtener datos de la API', error);
         window.alert('Error al obtener datos');
@@ -31,15 +31,23 @@ function App() {
     allDogs();
   }, [])
   const location = useLocation();
+
+
   return (
     <div className="App">
       {location.pathname !== "/" && (
-        <NavBar/>
+        <NavBar />
       )}
+      {location.pathname === '/home' &&(
+      <select>
+        <option value="A">Ascendente</option>
+        <option value="D">Descendente</option>
+      </select>)}
       <Routes>
-        <Route path="/home" element={<Cards dogs={dogs}/>} />
-        <Route path='/dogs' element={<Dogs/>} />
-        <Route path="/" element={<Inicio/>} />
+        <Route path="/home" element={<Cards dogs={dogs} />} />
+        <Route path='/dogs' element={<Dogs />} />
+        <Route path="/" element={<Inicio />} />
+        <Route path="/dogs/:id" element={<Details />} />
       </Routes>
     </div>
   );

@@ -24,25 +24,23 @@ function App() {
         }
 
       } catch (error) {
-        console.error('Error al obtener datos de la API', error);
-        window.alert('Error al obtener datos');
+        window.alert('Error al obtener datos', error);
       }
     }
     allDogs();
   }, [])
   const location = useLocation();
 
-
   return (
     <div className="App">
       {location.pathname !== "/" && (
         <NavBar />
       )}
-      {location.pathname === '/home' &&(
-      <select>
-        <option value="A">Ascendente</option>
-        <option value="D">Descendente</option>
-      </select>)}
+      {location.pathname === '/home' && (
+        <select>
+          <option value="A">Ascendente</option>
+          <option value="D">Descendente</option>
+        </select>)}
       <Routes>
         <Route path="/home" element={<Cards dogs={dogs} />} />
         <Route path='/dogs' element={<Dogs />} />

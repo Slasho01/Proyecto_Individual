@@ -1,10 +1,42 @@
-export const ORDER = 'ORDER'
+import axios from 'axios';
+export const ORDER_DOGS = 'DOGS_ORDER'
+export const DOGS_CARGA = 'DOGS_CARGA'
+export const DOGS_DETAILS = 'DOGS_DETAILS'
+export const LIMPIAR_DOGS = 'LIMPIAR_DOGS'
+const URL = 'http://localhost:3001/dogs/';
 
-export const orderCards = (order) => {
-    return (dispatch) => {
-       return dispatch({
-          type: 'ORDER',
-          payload: order,
-       });
-    }
+export const getAllDogs = () => async (dispatch) => {
+   try {
+     const response = await axios.get(URL);
+     dispatch({
+       type: DOGS_CARGA,
+       payload: response.data,
+     });
+   } catch (error) {
+     console.error('Error al obtener datos:', error);
+     window.alert('Error al obtener datos');
+   }
  };
+
+ export const orderDogs = (order) => ({
+   type: ORDER_DOGS,
+   payload: order,
+ });
+ export const limpiarDogs = () => ({
+   type: LIMPIAR_DOGS,
+ });
+
+ export const getDogById = (id) => async (dispatch) =>{
+   dispatch(limpiarDogs());
+   try {
+      const response = await axios.get(`${URL}${id}`)
+      dispatch({
+         type: DOGS_DETAILS,
+         payload: response.data
+      })
+      return response.data;
+   } catch (error) {
+      console.error('Error al obtener datos:', error);
+      window.alert('Error al obtener datos');
+   }
+ }

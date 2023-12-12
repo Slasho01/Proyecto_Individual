@@ -1,8 +1,9 @@
-import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS } from '../actions/actions'
+import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA } from '../actions/actions'
 const initialState = {
   dogs: [],
   sortOrder: 'A',
-  detail:[]
+  detail:[],
+  temperament:[]
 };
 
 const reducer = (state = initialState, action) => {
@@ -41,6 +42,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         detail: null,
       };
+      case TEMPERAMENT_CARGA:
+        return {
+          ...state,
+          temperament: action.payload,
+        };
     default:
       return state;
   }

@@ -13,7 +13,7 @@ export default function NavBar({onSearch}) {
       />
       </Link>
         <Link to='/' className={style.links}>Inicio</Link>
-        <Link to='/dogs' className={style.links}>All Dogs</Link>
+        <Link to='/adddog' className={style.links}>Add Dog</Link>
         <SearchBar/>
     </nav>
   );

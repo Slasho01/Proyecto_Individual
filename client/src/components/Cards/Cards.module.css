@@ -1,3 +1,10 @@
-.SelectOrder{
-    display: inline-block;
+.selectMar {
+    margin-bottom: 30px;
+}
+
+.orderSe {
+    width: 100px;
+    text-align: center;
+    border:0;
+    background-color: rgba(222, 184, 135, 0.4);
 }

@@ -1,18 +1,61 @@
-.container{
-    display:grid;
-    height: 400px;
-    width: 450px;
+.container {
+    display: grid;
+    max-height: 400px;
+    height: auto;
+    max-width: 450px;
+    width: auto;
     margin: auto;
-text-decoration: none;
-}
-.listTem{
-    display:inline-flex;
+    background-color: rgba(222, 184, 135, 0.6);
+    border-radius: 10px 35px 10px 35px;
     justify-content: center;
+}
+
+.container:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    background-color: rgba(222, 184, 135, 0.9);
+    margin-bottom: 18px;
+}
+
+.inputN {
+    border: 0;
+    max-width: 400px;
+    text-align: center;
+}
+
+.labels {
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: 5px;
+}
+
+.labelsCointain {
+    font-weight: bold;
+    display: inline-block;
     margin: auto;
 }
-.buttonDel{
+
+.inputs {
     border: 0;
-    background-color: rgba(0,0,0,0);
-    text-size-adjust: auto;
-    font-size: 19ox;
+    margin: 10px;
+    height: 15px;
+    width: 50px;
+}
+
+.botton {
+    font-weight: bold;
+    border: 0;
+    border-radius: 2px;
+    width: 400;
+}
+.selectContains{
+    justify-content: center;
+}
+.listTem {
+    justify-content: center;
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: bold;
 }

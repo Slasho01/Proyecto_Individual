@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllDogs, orderDogs } from '../../redux/actions/actions';
 import Card from '../Card/Card';
+import style from './Cards.module.css'
 
 export default function Cards() {
     const dispatch = useDispatch();
@@ -27,8 +28,8 @@ export default function Cards() {
     return (
 
         <div>
-            <div>
-                <select className='SelectOrder' onChange={(e) => handleOrderChange(e.target.value)}>
+            <div className={style.selectMar}>
+                <select className={style.orderSe} onChange={(e) => handleOrderChange(e.target.value)}>
                     <option value="A">A to Z</option>
                     <option value="D">Z to A</option>
                     <option value="B">Peso Max</option>

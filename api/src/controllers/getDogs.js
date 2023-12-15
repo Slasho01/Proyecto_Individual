@@ -50,13 +50,19 @@ async function getDogs(req, res) {
 }
 
 async function getDogsById(req, res) {
-    const id = req.params.id
+    const ids = req.params.id
+    console.log(ids.length)
     try {
-        const response = await axios(`${URL}/${id}?api_key=${APIKEY}`)
-        const data = response.data;
-        const tempsList = []
-        if (!data || Object.keys(data).length === 0) {
-            const dbDog = await Dog.findByPk(id,
+        if(ids.length <=3){
+            const response = await axios(`${URL}/${ids}?api_key=${APIKEY}`)
+            const data = response.data;
+            const { id, name, height, weight, life_span, reference_image_id, temperament } = data;
+            const imageU = await axios(`${URLi}${reference_image_id}?api_key=${APIKEY}`);
+            const image = imageU.data.url;
+            const dogs = { id, name, height, weight, life_span, image, temperament };
+            return dogs.name ? res.status(200).json(dogs) : res.status(404).send("Not found.")
+        }else{
+            const dbDog = await Dog.findByPk(ids,
                 {
                     include: [{
                         model: Temperament,
@@ -72,12 +78,6 @@ async function getDogsById(req, res) {
             } else {
                 return res.status(404).send("Not found.");
             }
-        } else {
-            const { id, name, height, weight, life_span, reference_image_id, temperament } = data;
-            const imageU = await axios(`${URLi}${reference_image_id}?api_key=${APIKEY}`);
-            const image = imageU.data.url;
-            const dogs = { id, name, height, weight, life_span, image, temperament };
-            return dogs.name ? res.status(200).json(dogs) : res.status(404).send("Not found.")
         }
     } catch (error) {
         res.status(500).json({ error: error.message })

@@ -4,6 +4,7 @@ export const DOGS_CARGA = 'DOGS_CARGA'
 export const DOGS_DETAILS = 'DOGS_DETAILS'
 export const LIMPIAR_DOGS = 'LIMPIAR_DOGS'
 export const TEMPERAMENT_CARGA = 'TEMPERAMENT_CARGA'
+export const SEARCH_BYNAME = 'SEARCH_BYNAME'
 const URL = 'http://localhost:3001/dogs/';
 const URLT = 'http://localhost:3001/temperament';
 

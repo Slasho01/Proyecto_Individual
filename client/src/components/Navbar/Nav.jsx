@@ -2,7 +2,7 @@ import SearchBar from '../Searchbar/Search'
 import style from "./Nav.module.css";
 import { Link } from "react-router-dom";
 /* import style from "./searchBar/SearchBar.module.css"; */
-export default function NavBar({onSearch}) {
+export default function NavBar({ onSearch }) {
   return (
     <nav className={style.nav}>
       <Link to='/' className={style.icon}>
@@ -14,7 +14,7 @@ export default function NavBar({onSearch}) {
       </Link>
         <Link to='/' className={style.links}>Inicio</Link>
         <Link to='/adddog' className={style.links}>Añadir Nuevo</Link>
-        <SearchBar/>
+        <SearchBar onSearch={onSearch}/>
     </nav>
   );
 }

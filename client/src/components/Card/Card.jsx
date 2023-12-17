@@ -10,8 +10,12 @@ const Card = (props) => {
                     <img className={style.image} src={props.image} alt={props.id} />
                     <h2 className={style.text}>{props.name}</h2>
                     <h2 className={style.text}>Temperamento: {props.temperament}</h2>
-                    <h2 className={style.text}>Peso (Imperial) : {props.weight.imperial}</h2>
-                    <h2 className={style.text}>Peso (Metric): {props.weight.metric}</h2>
+                    {props.weight && (
+                    <>
+                        <h2 className={style.text}>Peso (Imperial): {props.weight.imperial}</h2>
+                        <h2 className={style.text}>Peso (Metric): {props.weight.metric}</h2>
+                    </>
+                )}
                 </div>
             </Link>
     )

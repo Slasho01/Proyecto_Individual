@@ -1,19 +1,18 @@
 import style from './Search.module.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 export default function SearchBar(props) {
-    const [characters, characterSet] = useState(0);
+    const [dogs, dogSet] = useState('');
     const handleCharacter = (evento) => {
         let { value } = evento.target;
-        characterSet(value);
-      }
-    const rand = () => {
-        return Math.ceil(Math.random()*826);
-     }
+        dogSet(value);
+    };
+    const handleClick = () =>{
+        props.onSearch(dogs);
+    }
     return (  
         <div className={style.SearchBar}>
-            <input className={style.input} type='search' onChange={handleCharacter} />
-            <button className={style.button} onClick={() => props.onSearch(characters)}>Agregar</button>
-            <button className={style.button} onClick={() => props.onSearch(rand())}>Random</button>
+            <input className={style.input} type='search' onChange={handleCharacter}/>
+            <button onClick={handleClick}>Search</button>
         </div>
     )
 }

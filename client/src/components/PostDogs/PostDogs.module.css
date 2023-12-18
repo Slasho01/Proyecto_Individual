@@ -1,8 +1,8 @@
 .container {
     display: grid;
-    max-height: 400px;
+    max-height: 600px;
     height: auto;
-    max-width: 450px;
+    max-width: 700px;
     width: auto;
     margin: auto;
     background-color: rgba(222, 184, 135, 0.6);
@@ -19,7 +19,7 @@
 
 .inputN {
     border: 0;
-    max-width: 400px;
+    max-width: 500px;
     text-align: center;
 }
 
@@ -27,7 +27,7 @@
     font-weight: bold;
     font-size: 1rem;
     font-family: 'Times New Roman', Times, serif;
-    margin-top: 5px;
+    margin: auto;
 }
 
 .labelsCointain {
@@ -40,7 +40,7 @@
     border: 0;
     margin: 10px;
     height: 15px;
-    width: 50px;
+    width: 75px;
 }
 
 .botton {
@@ -50,11 +50,20 @@
     width: 400;
 }
 .selectContains{
+    max-width: 500px;
+    display: inline-flexbox;
     justify-content: center;
+    margin-bottom: 10px;
+}
+.uele{
+    margin: auto;
+    justify-content: center;
+    display: inline-block;
 }
 .listTem {
     justify-content: center;
-    display: inline-block;
+    display: inline-flex;
+    font-size: 16px;
     margin-right: 10px;
     margin-left: 10px;
     font-weight: bold;

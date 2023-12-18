@@ -27,7 +27,7 @@ const PostDogs = () => {
 
     const handleSelectChange = (event) => {
         const selectedName = event.target.options[event.target.selectedIndex].text;
-        if (!selectedTemperaments.includes(selectedName) && selectedTemperaments.length < 5) {
+        if (!selectedTemperaments.includes(selectedName) && selectedTemperaments.length < 10) {
             setSelectedTemperaments([...selectedTemperaments, selectedName]);
         }
     };
@@ -72,9 +72,9 @@ const PostDogs = () => {
         }
         console.log(enviar)
         try {
-            if(enviar){
+            if (enviar) {
                 axios.post(URL, enviar)
-            }else{
+            } else {
                 alert('no pueden haber campos vacios')
             }
         } catch (error) {
@@ -86,7 +86,7 @@ const PostDogs = () => {
             <h2>Añadir Raza</h2>
             <form className={style.container}>
                 <label className={style.labels}>Name: </label>
-                <input type="text"  className={style.inputN} name='name' placeholder='Raza' onChange={handleInputChange} value={razaData.name} />
+                <input type="text" className={style.inputN} name='name' placeholder='Raza' onChange={handleInputChange} value={razaData.name} />
                 <label className={style.labels} >Height:</label>
                 <label className={style.labelsCointain}>
                     Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='height.imperial' onChange={handleInputChange} value={razaData.height.imperial} />
@@ -100,9 +100,9 @@ const PostDogs = () => {
                 <label className={style.labelsCointain}>life_span: </label>
                 <input type="text" className={style.inputN} name='life_span' placeholder="10 - 10" onChange={handleInputChange} value={razaData.life_span} />
                 <label className={style.labelsCointain}>link de la imagen de la raza: </label>
-                <input type="text"  className={style.inputN} name='image' placeholder="https://www.example.com/perro.img" onChange={handleInputChange} value={razaData.image} />
+                <input type="text" className={style.inputN} name='image' placeholder="https://www.example.com/perro.img" onChange={handleInputChange} value={razaData.image} />
                 <label className={style.labelsCointain}>temperament: </label>
-                <select  className={style.inputN} onChange={handleSelectChange}>
+                <select className={style.inputN} onChange={handleSelectChange}>
                     {temperaments.map((temperament) => (
                         <option key={temperament.id} value={temperament.id}>
                             {temperament.name}
@@ -111,7 +111,7 @@ const PostDogs = () => {
                 </select>
                 <div className={style.selectContains}>
                     <h2>Temperamentos seleccionados:</h2>
-                    <ul name='temperament'>
+                    <ul className={style.uele} name='temperament'>
                         {selectedTemperaments.map((selected) => (
                             <label className={style.listTem} key={selected} onChange={handleInputChange} onClick={() => handleRemoveTemperament(selected)}>
                                 {selected}
@@ -120,7 +120,7 @@ const PostDogs = () => {
                     </ul>
                 </div>
             </form>
-                <button  className={style.botton} type='submit' onClick={onSubmit}>Registrar</button>
+            <button className={style.botton} type='submit' onClick={onSubmit}>Registrar</button>
         </div>
     )
 }

@@ -1,9 +1,12 @@
-import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA } from '../actions/actions'
+import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA, SEARCH_NAME, LAST_SEARCH } from '../actions/actions'
 const initialState = {
   dogs: [],
   sortOrder: 'A',
   detail: [],
   temperament: [],
+  search: [],
+  lastSearch: ''
+
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,23 +17,28 @@ const reducer = (state = initialState, action) => {
         dogs: action.payload,
       };
     case ORDER_DOGS:
-      const sortedDogs = [...state.dogs];
-      sortedDogs.sort((a, b) => {
+      const sortedd = [...state.dogs]
+      const sortedOrder = [...state.search]
+      sortedd.sort((a, b) => {
         if (action.payload === 'A') {
           return a.name.localeCompare(b.name);
         } else if (action.payload === 'D') {
           return b.name.localeCompare(a.name);
-        } else if (action.payload === 'B') {
-          return a.weight.imperial.localeCompare(b.weight.imperial)
-        } else if (action.payload === 'C') {
-          return b.weight.imperial.localeCompare(a.weight.imperial)
         }
         return 0;
-      });
-      console.log(sortedDogs)
+      })
+      sortedOrder.sort((a, b) => {
+        if (action.payload === 'A') {
+          return a.name.localeCompare(b.name);
+        } else if (action.payload === 'D') {
+          return b.name.localeCompare(a.name);
+        }
+        return 0;
+      })
       return {
         ...state,
-        dogs: sortedDogs,
+        search: sortedOrder,
+        dogs: sortedd,
       };
     case DOGS_DETAILS:
       return {
@@ -46,6 +54,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         temperament: action.payload,
+      };
+    case SEARCH_NAME:
+      return {
+        ...state,
+        search: action.payload,
+      }
+    case LAST_SEARCH:
+      return {
+        ...state,
+        lastSearch: action.payload,
       };
     default:
       return state;

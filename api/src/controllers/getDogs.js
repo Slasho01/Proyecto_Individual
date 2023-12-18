@@ -93,14 +93,25 @@ async function getDogsById(req, res) {
  */
 const postDog = async (req, res) => {
     try {
+        //Desestructuring de los datos requeridos por parametros
         const { image, name, height, weight, life_span, temperament } = req.body
+        //Verificamos si alguno de los datos requeridos por parametros esta vacio
         if (!image || !name || !height || !weight || !life_span) return res.status(401).json({ error: 'Faltan Datos' })
+        //Buscamos o creamos, dependiendo si existOrNot devuelve true, quiere decir que ya hay un dog con ese name
+        //si devuelve false creamos el dog nuevo
         const [existOrNot, create] = await Dog.findOrCreate({ where: { name }, defaults: { image, height, weight, life_span } });
+        //Verificamos que los temperamentos estan con un if
         if (temperament) {
+            //recorremos los temperamentos y pasamos de esto Stubborn, Curious, Playful, Adventurous, Aloof
+            //a esto [ 'Stubborn', 'Curious', 'Playful', 'Adventurous', 'Aloof' ] usando un split y un map para recorrer cada valor
             const tem = temperament.split(',').map(item => item.trim());
+            //buscamos los temperamentos en nuestra tabla de temperamentos de nuestra base de datos
             const addTem = await Temperament.findAll({
+                //buscamos los temperamentos guardados en la variable tem en la db y asignamos a addTem
                 where: { name: tem }
             })
+            //asignamos seteamos los temperamentos a la relacion "Leer un poco sobre la funcion"
+            //setTemperaments que es una funcion que asigna sequelize si no mal recuerdo!!
             await existOrNot.setTemperaments(addTem);
         } else {
             return res.status(401).json({ error: 'No se pudo agregar ya que no existe' })

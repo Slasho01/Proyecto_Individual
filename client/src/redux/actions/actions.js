@@ -6,6 +6,7 @@ export const LIMPIAR_DOGS = 'LIMPIAR_DOGS'
 export const TEMPERAMENT_CARGA = 'TEMPERAMENT_CARGA'
 export const SEARCH_NAME = 'SEARCH_NAME'
 export const LAST_SEARCH = 'LAST_SEARCH'
+export const ORDER_BYOLD = 'ORDER_BYOLD'
 const URL = 'http://localhost:3001/dogs/';
 const URLT = 'http://localhost:3001/temperament';
 const URLS = 'http://localhost:3001/search/name?name='

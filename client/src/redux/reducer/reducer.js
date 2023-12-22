@@ -1,11 +1,12 @@
-import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA, SEARCH_NAME, LAST_SEARCH } from '../actions/actions'
+import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA, SEARCH_NAME, LAST_SEARCH, ORDER_BYOLD } from '../actions/actions'
 const initialState = {
   dogs: [],
   sortOrder: 'A',
   detail: [],
   temperament: [],
   search: [],
-  lastSearch: ''
+  lastSearch: '',
+
 
 };
 
@@ -17,28 +18,31 @@ const reducer = (state = initialState, action) => {
         dogs: action.payload,
       };
     case ORDER_DOGS:
-      const sortedd = [...state.dogs]
-      const sortedOrder = [...state.search]
-      sortedd.sort((a, b) => {
+      const datai = state.search.length === 0 ? [...state.dogs] : [...state.search]
+      datai.sort((a, b) => {
         if (action.payload === 'A') {
           return a.name.localeCompare(b.name);
         } else if (action.payload === 'D') {
           return b.name.localeCompare(a.name);
-        }
-        return 0;
-      })
-      sortedOrder.sort((a, b) => {
-        if (action.payload === 'A') {
-          return a.name.localeCompare(b.name);
-        } else if (action.payload === 'D') {
-          return b.name.localeCompare(a.name);
+        } else if(action.payload === 'B'){
+          const wei = a.weight['imperial'].split(' - ').map(Number);
+          const prom = parseInt(wei[0] + wei[1]) / 2
+          const weiB = b.weight['imperial'].split(' - ').map(Number);
+          const promB = (weiB[0] + weiB[1]) / 2;
+          return prom - promB
+        } else if(action.payload === 'C'){
+          const wei = a.weight['imperial'].split(' - ').map(Number);
+          const prom = parseInt(wei[0] + wei[1]) / 2
+          const weiB = b.weight['imperial'].split(' - ').map(Number);
+          const promB = (weiB[0] + weiB[1]) / 2;
+          return promB - prom
         }
         return 0;
       })
       return {
         ...state,
-        search: sortedOrder,
-        dogs: sortedd,
+        search: datai,
+        dogs: datai,
       };
     case DOGS_DETAILS:
       return {

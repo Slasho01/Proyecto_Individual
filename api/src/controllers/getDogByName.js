@@ -22,7 +22,7 @@ const getDogsByName = async (req, res) => {
             include: [{ model: Temperament, attributes: ['name'] }],
             where: {
               name: {
-                [Op.like]: `%${name}%`,
+                [Op.iLike]: `%${name}%`,
               },
             },
           });

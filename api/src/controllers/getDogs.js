@@ -51,7 +51,6 @@ async function getDogs(req, res) {
 
 async function getDogsById(req, res) {
     const ids = req.params.id
-    console.log(ids.length)
     try {
         if(ids.length <=3){
             const response = await axios(`${URL}/${ids}?api_key=${APIKEY}`)

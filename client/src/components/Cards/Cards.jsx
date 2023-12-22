@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //import { useLocation } from 'react-router-dom'
-import { getAllDogs, orderDogs, getDogByName } from '../../redux/actions/actions';
+import { getAllDogs, orderDogs } from '../../redux/actions/actions';
 import Card from '../Card/Card';
 //import NavBar from '../Navbar/Nav';
 import style from './Cards.module.css'
@@ -84,11 +84,12 @@ export default function Cards() {
                 <NavBar onSearch={handleSearch} />
             )*/}
             <div className={style.selectMar}>
+                <label>Ordenar por </label>
                 <select className={style.orderSe} onChange={(e) => handleOrderChange(e.target.value)}>
-                    <option value="A">A to Z</option>
-                    <option value="D">Z to A</option>
-                    <option value="B">Peso Max</option>
-                    <option value="C">Peso Min</option>
+                    <option value="A">Nombre (A to Z)</option>
+                    <option value="D">Nombre (Z to A)</option>
+                    <option value="B">Peso Menor (Imperial)</option>
+                    <option value="C">Peso Mayor (Imperial)</option>
                 </select>
             </div>
             {dogsToShow.map(dog => (

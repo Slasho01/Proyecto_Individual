@@ -1,4 +1,4 @@
-import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA, SEARCH_NAME, LAST_SEARCH, ORDER_BYOLD } from '../actions/actions'
+import { DOGS_CARGA, ORDER_DOGS, DOGS_DETAILS, LIMPIAR_DOGS, TEMPERAMENT_CARGA, SEARCH_NAME, LAST_SEARCH, FILTER_TEMPERAMENT } from '../actions/actions'
 const initialState = {
   dogs: [],
   sortOrder: 'A',
@@ -6,19 +6,18 @@ const initialState = {
   temperament: [],
   search: [],
   lastSearch: '',
-
-
+  filteredDogs: []
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
+ switch (action.type) {
     case DOGS_CARGA:
       return {
         ...state,
         dogs: action.payload,
       };
     case ORDER_DOGS:
-      const datai = state.search.length === 0 ? [...state.dogs] : [...state.search]
+      const datai = state.search.length !== 0 ? [...state.search] : state.filteredDogs.length !== 0 ? [...state.filteredDogs] : [...state.dogs]
       datai.sort((a, b) => {
         if (action.payload === 'A') {
           return a.name.localeCompare(b.name);
@@ -69,6 +68,22 @@ const reducer = (state = initialState, action) => {
         ...state,
         lastSearch: action.payload,
       };
+    case FILTER_TEMPERAMENT:
+      const selectedTemperaments = action.payload;
+      const originalDogs = [...state.dogs];
+      let filteredDogs = originalDogs;
+
+      selectedTemperaments.forEach((selected) => {
+        filteredDogs = filteredDogs.filter((dog) => {
+          const temperamentArray = dog.temperament?.split(', ').map((value) => value.trim()) || [];
+          return temperamentArray.includes(selected);
+        });
+      });
+      return {
+        ...state,
+        filteredDogs: filteredDogs,
+      };
+
     default:
       return state;
   }

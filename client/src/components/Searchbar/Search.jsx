@@ -1,17 +1,17 @@
 import style from './Search.module.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 export default function SearchBar(props) {
     const [dogs, dogSet] = useState('');
-    const handleCharacter = (evento) => {
+    const handleDogs = (evento) => {
         let { value } = evento.target;
         dogSet(value);
     };
     const handleClick = () =>{
-        props.onSearch(dogs);
+            props.onSearch(dogs);
     }
     return (  
         <div className={style.SearchBar}>
-            <input className={style.input} type='search' onChange={handleCharacter}/>
+            <input className={style.input} type='search' onChange={handleDogs}/>
             <button onClick={handleClick}>Search</button>
         </div>
     )

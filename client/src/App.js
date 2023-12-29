@@ -12,7 +12,7 @@ function App() {
   const dispatch = useDispatch()
   const handleSearch = async (searchTerm) => {
     try {
-        await dispatch(getDogByName(searchTerm));
+          await dispatch(getDogByName(searchTerm));
     } catch (error) {
       console.error('Error searching for dogs:', error);
     }

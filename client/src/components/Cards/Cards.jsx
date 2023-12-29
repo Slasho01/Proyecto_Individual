@@ -1,88 +1,108 @@
 //import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { useLocation } from 'react-router-dom'
-import { getAllDogs, orderDogs } from '../../redux/actions/actions';
+import { getAllDogs, orderDogs, getAllTemperaments, filterDogsByTemperaments } from '../../redux/actions/actions';
 import Card from '../Card/Card';
-//import NavBar from '../Navbar/Nav';
 import style from './Cards.module.css'
-//const URLS = 'http://localhost:3001/search/name?name='
 
 export default function Cards() {
     const dispatch = useDispatch();
-    //estado local donde se almacena lo buscado
-    //const [dogos, setDogs] = useState([])
-    //const [dogsT, setDogsTemp] = useState([])
-    //const [lastSearch, setLastSearch] = useState('');
     //almacena la data de todos los dogs!!
     const dogs = useSelector(state => state.dogs);
     const dogsS = useSelector(state => state.search);
+    const dogsf = useSelector(state => state.filteredDogs);
     //cantidad de dogs que se mostraran por pagina
     const dogsPerPage = 8;
     //estado local donde se almacena la pagina actual
     const [currentPage, setCurrentPage] = useState(1);
     //usamos un dispatch para tomar todos los dogs
+    const temperaments = useSelector((state) => state.temperament);
+    const [selectedTemperaments, setSelectedTemperaments] = useState([]);
+    const [razaData, setRazaData] = useState({
+        name: '',
+        height: {
+            imperial: '',
+            metric: ''
+        },
+        weight: {
+            imperial: '',
+            metric: ''
+        },
+        life_span: '',
+        image: '',
+    });
+
+    useEffect(() => {
+        dispatch(getAllTemperaments());
+    }, [dispatch]);
+
     useEffect(() => {
         dispatch(getAllDogs());
     }, [dispatch]);
+    useEffect(() => {
+        dispatch(getAllDogs());
+    }, [dispatch, selectedTemperaments]);
     //añadimos al estado local todos los dogs
-    //funcion onsearch
-    /* async function onSearch(name) {
-        try {
-            if (name.length > 0) {
-                const response = await axios.get(`${URLS}${name}`);
-                if (response.status === 201) {
-                    const dataDog = response.data;
-                    if (dataDog) {
-                        setDogs(dataDog);
-                        setLastSearch(name);
-                    } else {
-                        window.alert("Raza no encontrada");
-                    }
-                } else {
-                    throw new Error('Error de conexion');
-                }
-            } else if(name.length===0){
-                    setDogs(dogs)
-                    setLastSearch('');
-                }
-        } catch (error) {
-            console.error('Error', error);
-        }
-    }*/
-    /*const onSearch = (name)=>{
-        if(name != ''){
-            const dogsTemp = dogs.filter(dog => dog.name.toLowerCase().includes(name.toLowerCase()));
-            setDogsTemp(dogsTemp)
-        }
-    }*/
-
-    /*const handleSearch = async (searchTerm) => {
-        try {
-            await dispatch(getDogByName(searchTerm));
-        } catch (error) {
-            console.error('Error searching for dogs:', error);
-        }
-    };*/
     //indexcacion y renderizado
     const startIndex = (currentPage - 1) * dogsPerPage;
     const endIndex = startIndex + dogsPerPage;
-    const dogsToShow = dogsS.length !== 0 ? dogsS.slice(startIndex, endIndex) : dogs.slice(startIndex, endIndex);
-    //const dogsToRend = dogsT.length !== 0 ? dogsT : dogos
-    //const dogsToShow = dogsT.length !==0 ? dogsT.slice(startIndex, endIndex) : dogos.slice(startIndex, endIndex);
-    //const dox = [].concat(...dogsToShow)
-    /*const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };*/
+    const dogsToShow =
+        dogsS.length !== 0
+            ? dogsS.slice(startIndex, endIndex)
+            : dogsf.length !== 0
+                ? dogsf.slice(startIndex, endIndex)
+                : dogs.slice(startIndex, endIndex);
     const handleOrderChange = (order) => {
         dispatch(orderDogs(order));
     };
-    //const location = useLocation();
+    const handleSelectChange = (event) => {
+        const selectedName = event.target.options[event.target.selectedIndex].text;
+        if (!selectedTemperaments.includes(selectedName) && selectedTemperaments.length < 10) {
+            setSelectedTemperaments([...selectedTemperaments, selectedName]);
+        }
+    };
+    useEffect(() => {
+        handleFilterByTemperaments();
+    }, [selectedTemperaments]);
+    const handleRemoveTemperament = (selectedName) => {
+        const indexARemover = selectedTemperaments.indexOf(selectedName);
+        if (indexARemover !== -1) {
+            const actualizarTemperamento = [
+                ...selectedTemperaments.slice(0, indexARemover),
+                ...selectedTemperaments.slice(indexARemover + 1),
+            ];
+            setSelectedTemperaments(actualizarTemperamento);
+        }
+    };
+    useEffect(() => {
+        handleFilterByTemperaments();
+    }, [selectedTemperaments]);
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
+        if (name.includes('.')) {
+            const [dataInfo, childDataInfo] = name.split('.');
+            setRazaData({
+                ...razaData,
+                [dataInfo]: {
+                    ...razaData[dataInfo],
+                    [childDataInfo]: value
+                },
+
+            })
+        }
+        else {
+            setRazaData({
+                ...razaData,
+                [name]: value,
+            });
+        }
+    }
+    const handleFilterByTemperaments = () => {
+        dispatch(filterDogsByTemperaments(selectedTemperaments));
+    };
     return (
         <div>
-            {/*location.pathname !== "/" && (
-                <NavBar onSearch={handleSearch} />
-            )*/}
             <div className={style.selectMar}>
                 <label>Ordenar por </label>
                 <select className={style.orderSe} onChange={(e) => handleOrderChange(e.target.value)}>
@@ -91,6 +111,23 @@ export default function Cards() {
                     <option value="B">Peso Menor (Imperial)</option>
                     <option value="C">Peso Mayor (Imperial)</option>
                 </select>
+                <select className={style.orderSe} onChange={handleSelectChange}>
+                    {temperaments.map((temperament) => (
+                        <option key={temperament.id} value={temperament.id}>
+                            {temperament.name}
+                        </option>
+                    ))}
+                </select>
+                <div >
+                    <h2>Temperamentos seleccionados:</h2>
+                    <ul name='temperament'>
+                        {selectedTemperaments.map((selected) => (
+                            <label key={selected} onChange={handleInputChange} onClick={() => handleRemoveTemperament(selected)}>
+                                {selected}
+                            </label>
+                        ))}
+                    </ul>
+                </div>
             </div>
             {dogsToShow.map(dog => (
                 <Card
@@ -105,7 +142,7 @@ export default function Cards() {
                 />
             ))}
             <div>
-                {Array.from({ length: Math.ceil((dogsS.length || dogs.length) / dogsPerPage) }, (_, index) => (
+                {Array.from({ length: Math.ceil((dogsS.length ||  dogsf.length ||  dogs.length) / dogsPerPage) }, (_, index) => (
                     <button
                         key={`page-${index + 1}`}
                         onClick={() => setCurrentPage(index + 1)}
@@ -114,17 +151,6 @@ export default function Cards() {
                         {index + 1}
                     </button>
                 ))
-                    // Array.from({ length: Math.ceil(location.pathname === "/" ? dogs.length / dogsPerPage : dogos.length / dogsPerPage) }, (_, index) => (
-                    //Array.from({ length: Math.ceil( dogsToRender.length / dogsPerPage)}, (_, index) => (
-                    /* Array.from({ length: Math.ceil( dogsToShow.length / dogsPerPage)}, (_, index) => (
-                     <button
-                         key={`page-${index + 1}`}
-                         onClick={() => handlePageChange(index + 1)}
-                         style={{ margin: '5px', padding: '5px' }}
-                     >
-                         {index + 1}
-                     </button>
-                 ))*/
                 }
             </div>
         </div>

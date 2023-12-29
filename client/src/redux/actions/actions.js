@@ -7,6 +7,7 @@ export const TEMPERAMENT_CARGA = 'TEMPERAMENT_CARGA'
 export const SEARCH_NAME = 'SEARCH_NAME'
 export const LAST_SEARCH = 'LAST_SEARCH'
 export const ORDER_BYOLD = 'ORDER_BYOLD'
+export const FILTER_TEMPERAMENT = 'FILTER_TEMPERAMENT'
 const URL = 'http://localhost:3001/dogs/';
 const URLT = 'http://localhost:3001/temperament';
 const URLS = 'http://localhost:3001/search/name?name='
@@ -57,9 +58,9 @@ export const getDogById = (id) => async (dispatch) => {
     window.alert('Error al obtener datos');
   }
 }
-const setDogs = (search) => ({
+const setDogs = (dogs) => ({
   type: SEARCH_NAME,
-  payload: search,
+  payload: dogs,
 });
 const lastSearch = (lastSearch) => ({
   type: LAST_SEARCH,
@@ -68,24 +69,30 @@ const lastSearch = (lastSearch) => ({
 export const getDogByName = (name) => async (dispatch, getState) => {
   try {
     if (name.length > 0) {
-      const response = await axios.get(`${URLS}${name}`)
+      const response = await axios.get(`${URLS}${name}`);
       if (response.status >= 200 && response.status <= 300) {
-        const dogsData = response.data
+        const dogsData = response.data;
         if (dogsData) {
           dispatch(setDogs(dogsData));
           dispatch(lastSearch(name));
         } else {
           window.alert("Raza no encontrada");
         }
-      }else{
+      } else {
         throw new Error('Error de conexión');
       }
-    }else if(name.length === 0){
-      const { dogs } = getState();
-      dispatch(setDogs(dogs));
+    } else if (name === "") {
+      const response1 = await axios.get(`${URL}`);
+      dispatch(setDogs(response1.data));
       dispatch(lastSearch(''));
     }
   } catch (error) {
     console.error('Error', error);
   }
-}
+};
+export const filterDogsByTemperaments = (selectedTemperaments) => {
+  return {
+    type: FILTER_TEMPERAMENT,
+    payload: selectedTemperaments,
+  };
+};

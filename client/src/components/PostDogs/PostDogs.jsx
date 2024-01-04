@@ -3,12 +3,27 @@ import style from '../PostDogs/PostDogs.module.css'
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTemperaments } from '../../redux/actions/actions'
+import validation from './validations';
 const URL = 'http://localhost:3001/dogs/';
 const PostDogs = () => {
     const dispatch = useDispatch();
     const temperaments = useSelector((state) => state.temperament);
     const [selectedTemperaments, setSelectedTemperaments] = useState([]);
     const [razaData, setRazaData] = useState({
+        name: '',
+        height: {
+            imperial: '',
+            metric: ''
+        },
+        weight: {
+            imperial: '',
+            metric: ''
+        },
+        life_span: '',
+        image: '',
+    });
+
+    const [errors, setError] = useState({
         name: '',
         height: {
             imperial: '',
@@ -56,21 +71,22 @@ const PostDogs = () => {
                 },
 
             })
+            setError(validation(({...razaData, [event.target.name]: event.target.value})))
         }
         else {
             setRazaData({
                 ...razaData,
                 [name]: value,
             });
+            setError(validation(({...razaData, [event.target.name]: event.target.value})))
         }
     }
-    const onSubmit = async (event) => {
+    const onSubmit = async () => {
         //event.preventDefault();
         const enviar = {
             ...razaData,
             temperament: selectedTemperaments.join(', ')
         }
-        console.log(enviar)
         try {
             if (enviar) {
                 axios.post(URL, enviar)
@@ -78,7 +94,7 @@ const PostDogs = () => {
                 alert('no pueden haber campos vacios')
             }
         } catch (error) {
-            console.alert(error)
+            console.alert('asdasd',error)
         }
     }
     return (
@@ -87,20 +103,24 @@ const PostDogs = () => {
             <form className={style.container}>
                 <label className={style.labels}>Name: </label>
                 <input type="text" className={style.inputN} name='name' placeholder='Raza' onChange={handleInputChange} value={razaData.name} />
+                <p>{errors.name}</p>
                 <label className={style.labels} >Height:</label>
                 <label className={style.labelsCointain}>
-                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='height.imperial' onChange={handleInputChange} value={razaData.height.imperial} />
-                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='height.metric' onChange={handleInputChange} value={razaData.height.metric} />
+                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='height' onChange={handleInputChange} value={razaData.height.imperial} />
+                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='height' onChange={handleInputChange} value={razaData.height.metric} />
                 </label>
+                
                 <label className={style.labels}>Weight:</label>
                 <label className={style.labelsCointain}>
-                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight.imperial' onChange={handleInputChange} value={razaData.weight.imperial} />
-                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight.metric' onChange={handleInputChange} value={razaData.weight.metric} />
+                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight' onChange={handleInputChange} value={razaData.weight.imperial} />
+                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight' onChange={handleInputChange} value={razaData.weight.metric} />
                 </label>
                 <label className={style.labelsCointain}>life_span: </label>
                 <input type="text" className={style.inputN} name='life_span' placeholder="10 - 10" onChange={handleInputChange} value={razaData.life_span} />
+                <p>{errors.life_span}</p>
                 <label className={style.labelsCointain}>link de la imagen de la raza: </label>
                 <input type="text" className={style.inputN} name='image' placeholder="https://www.example.com/perro.img" onChange={handleInputChange} value={razaData.image} />
+                <p>{errors.life_span}</p>
                 <label className={style.labelsCointain}>temperament: </label>
                 <select className={style.inputN} onChange={handleSelectChange}>
                     {temperaments.map((temperament) => (

@@ -13,7 +13,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         dogs: action.payload,
-        originalDogs: action.payload
       };
     case ORDER_DOGS:
       const datai = [...state.dogs]

@@ -1,11 +1,12 @@
 export default function validation(inputs) {
     let errors = {};
-    const contra = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
-    const mail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (!inputs.email) errors.email = "Email is required.";
-    if (inputs.email.length > 35) errors.email = "Excede el maximo de caracteres";
-    if (!mail.test(inputs.email)) errors.email = "formato incorrecto";
-    if (!contra.test(inputs.password)) errors.password = "La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.";
+    const WeiHei = /^\d+ - \d+$/
+    if (!inputs.name) errors.name = "El nombre o raza es requerido";
+    if (inputs.name.length > 35) errors.name = "Excede el maximo de caracteres";
+    if (!inputs.life_span) errors.life_span = "El nombre o raza es requerido";
+    if (!inputs.heigthI) errors.heigthI = "El nombre o raza es requerido";
+    if(!WeiHei.test(inputs.life_span)) errors.life_span = "formato incorrecto";
+    if (!inputs.image) errors.image = "debes ingresar la imagen del dog 'URL'";
     return errors;
   }
   

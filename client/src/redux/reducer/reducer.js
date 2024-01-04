@@ -4,9 +4,7 @@ const initialState = {
   sortOrder: 'A',
   detail: [],
   temperament: [],
-  search: [],
   lastSearch: '',
-  filteredDogs: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,9 +13,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         dogs: action.payload,
+        originalDogs: action.payload
       };
     case ORDER_DOGS:
-      const datai = state.search.length !== 0 ? [...state.search] : state.filteredDogs.length !== 0 ? [...state.filteredDogs] : [...state.dogs]
+      const datai = [...state.dogs]
       datai.sort((a, b) => {
         if (action.payload === 'A') {
           return a.name.localeCompare(b.name);
@@ -40,7 +39,6 @@ const reducer = (state = initialState, action) => {
       })
       return {
         ...state,
-        search: datai,
         dogs: datai,
       };
     case DOGS_DETAILS:
@@ -61,7 +59,7 @@ const reducer = (state = initialState, action) => {
     case SEARCH_NAME:
       return {
         ...state,
-        search: action.payload,
+        dogs: action.payload,
       }
     case LAST_SEARCH:
       return {
@@ -70,18 +68,19 @@ const reducer = (state = initialState, action) => {
       };
     case FILTER_TEMPERAMENT:
       const selectedTemperaments = action.payload;
-      const originalDogs = [...state.dogs];
-      let filteredDogs = originalDogs;
-
-      selectedTemperaments.forEach((selected) => {
-        filteredDogs = filteredDogs.filter((dog) => {
+      console.log('Selected Temperaments:', selectedTemperaments);
+      const originalDogs = state.originalDogs || [...state.dogs];
+      console.log('Original Dogs:', state.originalDogs);
+      const filteredDogs = originalDogs.filter((dog) => {
+        return selectedTemperaments.every((selected) => {
           const temperamentArray = dog.temperament?.split(', ').map((value) => value.trim()) || [];
           return temperamentArray.includes(selected);
         });
       });
       return {
         ...state,
-        filteredDogs: filteredDogs,
+        dogs: filteredDogs,
+        originalDogs: originalDogs || [...state.dogs], 
       };
 
     default:

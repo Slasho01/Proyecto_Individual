@@ -8,7 +8,7 @@ const {
     APIKEY
 } = process.env;
 const getDogsByName = async (req, res) => {
-    const {name} = req.query
+    const { name } = req.query
     try {
         const respuesta = await axios.get(`${URLs}${name}`)
         const data = respuesta.data;
@@ -18,19 +18,27 @@ const getDogsByName = async (req, res) => {
             const image = imageU.data.url;
             data[key].image = image
         }
+        //buscamos en la db con el find all
         const respuestadb = await Dog.findAll({
+            //include: incluimos los temperamentos por el atributo name
             include: [{ model: Temperament, attributes: ['name'] }],
+            //buscamos el perro encontrado segun lo ingresado con el like que toma el valor y lo busca segun lo ingresado 
+            //y añadimos la I a ilike para que ignore las mayosculas y o minusculas
             where: {
               name: {
                 [Op.iLike]: `%${name}%`,
               },
             },
           });
+          //usamos map para tomar la data que solo necesitamos mostrar y la convertimos a formato json
         const dog = respuestadb.map((dbdog) => {
             const { id, name, image, height, weight, life_span, temperaments } = dbdog.toJSON();
+            //usamos un mapeo y pasamos de un array de objetos a un array simple con un join para que sea mas legible la informacion
+            //y mostrarla tal cual la api
             const temperamentos = temperaments.map((temperament) => temperament.name).join(', ');
             return { id, name, image, height, weight, life_span, temperamentos }
         })
+        //combinamos la info de la api + la db para mostrarla
         const combine = data.concat(...dog)
         if(combine.length > 0){
             res.status(201).json(combine)

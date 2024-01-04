@@ -11,8 +11,8 @@ export default function SearchBar(props) {
     }
     return (  
         <div className={style.SearchBar}>
-            <input className={style.input} type='search' onChange={handleDogs}/>
-            <button onClick={handleClick}>Search</button>
+            <input className={style.input} type='search' onChange={handleDogs} onKeyPress={(e) => e.key === 'Enter' && handleClick()}/>
+            <button className={style.botun} onClick={handleClick}>Search</button>
         </div>
     )
 }

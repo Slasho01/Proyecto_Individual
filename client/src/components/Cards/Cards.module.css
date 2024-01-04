@@ -7,4 +7,19 @@
     text-align: center;
     border:0;
     background-color: rgba(222, 184, 135, 0.4);
+    margin-right: 10px;
+}
+.lab{
+    margin-right: 10px;
+}
+.container{
+    width: auto;
+    display:inline-flexbox;
+}
+.selectionn{
+    background-color: rgba(222, 184, 135, 0.4);
+    border-style: double;
+    border: 10px;
+    border-radius: 10px;
+    width: auto;
 }

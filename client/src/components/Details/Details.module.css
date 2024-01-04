@@ -1,9 +1,15 @@
-.container{
-    margin: auto;
-    width: auto;
-    height: auto;
+.botun{
+    background:linear-gradient(rgba(255, 255, 255, 0.9), rgba(222, 184, 135, 0.8),rgba(255, 255, 255, 0.7));
+    color:rgb(130, 102, 67);
+    margin: 10px;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    transition: 2s;
 }
-.cardDetail{
-    width: auto;
-    height: 500px;
+.botun:hover{
+    background:linear-gradient(rgba(222, 184, 135, 0.9), rgba(255, 255, 255, 0.8), rgba(222, 184, 135, 0.7));
+    color:rgb(222, 184, 135);
+    text-decoration: none;
 }

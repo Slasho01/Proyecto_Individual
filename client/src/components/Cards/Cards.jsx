@@ -9,8 +9,6 @@ export default function Cards() {
     const dispatch = useDispatch();
     //almacena la data de todos los dogs!!
     const dogs = useSelector(state => state.dogs);
-    const dogsS = useSelector(state => state.search);
-    const dogsf = useSelector(state => state.filteredDogs);
     //cantidad de dogs que se mostraran por pagina
     const dogsPerPage = 8;
     //estado local donde se almacena la pagina actual
@@ -40,44 +38,26 @@ export default function Cards() {
         dispatch(getAllDogs());
     }, [dispatch]);
     useEffect(() => {
-        dispatch(getAllDogs());
-    }, [dispatch, selectedTemperaments]);
+        handleFilterByTemperaments();
+    }, [selectedTemperaments]);
     //añadimos al estado local todos los dogs
     //indexcacion y renderizado
     const startIndex = (currentPage - 1) * dogsPerPage;
     const endIndex = startIndex + dogsPerPage;
-    const dogsToShow =
-        dogsS.length !== 0
-            ? dogsS.slice(startIndex, endIndex)
-            : dogsf.length !== 0
-                ? dogsf.slice(startIndex, endIndex)
-                : dogs.slice(startIndex, endIndex);
-    const handleOrderChange = (order) => {
-        dispatch(orderDogs(order));
-    };
+    const dogsToShow = dogs.slice(startIndex, endIndex);
+    //select filter
     const handleSelectChange = (event) => {
         const selectedName = event.target.options[event.target.selectedIndex].text;
         if (!selectedTemperaments.includes(selectedName) && selectedTemperaments.length < 10) {
             setSelectedTemperaments([...selectedTemperaments, selectedName]);
         }
     };
-    useEffect(() => {
-        handleFilterByTemperaments();
-    }, [selectedTemperaments]);
+    //eliminar el temperamento 
     const handleRemoveTemperament = (selectedName) => {
-        const indexARemover = selectedTemperaments.indexOf(selectedName);
-        if (indexARemover !== -1) {
-            const actualizarTemperamento = [
-                ...selectedTemperaments.slice(0, indexARemover),
-                ...selectedTemperaments.slice(indexARemover + 1),
-            ];
-            setSelectedTemperaments(actualizarTemperamento);
-        }
+        const actualizarTemperamento = selectedTemperaments.filter(temperament => temperament !== selectedName);
+        setSelectedTemperaments(actualizarTemperamento);
     };
-    useEffect(() => {
-        handleFilterByTemperaments();
-    }, [selectedTemperaments]);
-
+    //actualizar los temperamentos
     const handleInputChange = (event) => {
         const { name, value } = event.target
         if (name.includes('.')) {
@@ -101,16 +81,21 @@ export default function Cards() {
     const handleFilterByTemperaments = () => {
         dispatch(filterDogsByTemperaments(selectedTemperaments));
     };
+    //ordenamiento 
+    const handleOrderChange = (order) => {
+        dispatch(orderDogs(order));
+    };
     return (
         <div>
             <div className={style.selectMar}>
-                <label>Ordenar por </label>
+                <label className={style.lab}>Ordenar por </label>
                 <select className={style.orderSe} onChange={(e) => handleOrderChange(e.target.value)}>
                     <option value="A">Nombre (A to Z)</option>
                     <option value="D">Nombre (Z to A)</option>
                     <option value="B">Peso Menor (Imperial)</option>
                     <option value="C">Peso Mayor (Imperial)</option>
                 </select>
+                <label className={style.lab}>Filtrar por </label>
                 <select className={style.orderSe} onChange={handleSelectChange}>
                     {temperaments.map((temperament) => (
                         <option key={temperament.id} value={temperament.id}>
@@ -118,11 +103,10 @@ export default function Cards() {
                         </option>
                     ))}
                 </select>
-                <div >
-                    <h2>Temperamentos seleccionados:</h2>
-                    <ul name='temperament'>
+                <div className={style.container}>
+                    <ul className={style.selectionn} name='temperament'>
                         {selectedTemperaments.map((selected) => (
-                            <label key={selected} onChange={handleInputChange} onClick={() => handleRemoveTemperament(selected)}>
+                            <label className={style.lab2} key={selected} onChange={handleInputChange} onClick={() => handleRemoveTemperament(selected)}>
                                 {selected}
                             </label>
                         ))}
@@ -142,7 +126,7 @@ export default function Cards() {
                 />
             ))}
             <div>
-                {Array.from({ length: Math.ceil((dogsS.length ||  dogsf.length ||  dogs.length) / dogsPerPage) }, (_, index) => (
+                {Array.from({ length: Math.ceil(( dogs.length) / dogsPerPage) }, (_, index) => (
                     <button
                         key={`page-${index + 1}`}
                         onClick={() => setCurrentPage(index + 1)}

@@ -42,16 +42,18 @@ export default function Details() {
         fetchData();
     }, [dispatch, id]);
     return (
-        <div className={style.container}>
+        <div>
+            <button className={style.botun}> <Link className={style.botun} to='/home'>BACK</Link></button>
+            <section className={style.cardDetal}>
+                <img className={style.imageStyle} src={dog?.image} alt={dog?.id} />
+            </section>
             <section className={style.cardDetail}>
-                <button> <Link to='/home'>BACK</Link></button>
-                <h2 >Id: {dog?.id}</h2>
-                <img src={dog?.image} alt={dog?.id} />
-                <h2 >Raza: {dog?.name}</h2>
-                <h2 >Altura: {dog?.height ? `Imperial: ${dog.height.imperial}, Metric: ${dog.height.metric}` : 'No disponible'}</h2>
-                <h2>Peso: {dog?.weight ? `Imperial: ${dog.weight.imperial}, Metric: ${dog.weight.metric}` : 'No disponible'}</h2>
-                <h2 >Temperamento: {dog?.temperament || dog?.temperamentos}</h2>
-                <h2>Años de vida: {dog?.life_span}</h2>
+                <h2 className={style.h2}>Id: {dog?.id}</h2>
+                <h2 className={style.h2}>Raza: {dog?.name}</h2>
+                <h2 className={style.h2}>Altura: {dog?.height ? `Imperial: ${dog.height.imperial}, Metric: ${dog.height.metric}` : 'No disponible'}</h2>
+                <h2 className={style.h2}>Peso: {dog?.weight ? `Imperial: ${dog.weight.imperial}, Metric: ${dog.weight.metric}` : 'No disponible'}</h2>
+                <h2 className={style.h2}>Temperamento: {dog?.temperament || dog?.temperamentos}</h2>
+                <h2 className={style.h2}>Años de vida: {dog?.life_span}</h2>
             </section>
         </div>
     )

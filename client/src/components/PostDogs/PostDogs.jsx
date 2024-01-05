@@ -120,7 +120,7 @@ const PostDogs = () => {
                 <p>{errors.life_span}</p>
                 <label className={style.labelsCointain}>link de la imagen de la raza: </label>
                 <input type="text" className={style.inputN} name='image' placeholder="https://www.example.com/perro.img" onChange={handleInputChange} value={razaData.image} />
-                <p>{errors.life_span}</p>
+                <p>{errors.image}</p>
                 <label className={style.labelsCointain}>temperament: </label>
                 <select className={style.inputN} onChange={handleSelectChange}>
                     {temperaments.map((temperament) => (

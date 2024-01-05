@@ -67,9 +67,7 @@ const reducer = (state = initialState, action) => {
       };
     case FILTER_TEMPERAMENT:
       const selectedTemperaments = action.payload;
-      console.log('Selected Temperaments:', selectedTemperaments);
       const originalDogs = state.originalDogs || [...state.dogs];
-      console.log('Original Dogs:', state.originalDogs);
       const filteredDogs = originalDogs.filter((dog) => {
         return selectedTemperaments.every((selected) => {
           const temperamentArray = dog.temperament?.split(', ').map((value) => value.trim()) || [];

@@ -126,11 +126,16 @@ export default function Cards() {
                 />
             ))}
             <div>
-                {Array.from({ length: Math.ceil(( dogs.length) / dogsPerPage) }, (_, index) => (
+                {Array.from({ length: Math.ceil((dogs.length) / dogsPerPage) }, (_, index) => (
                     <button
                         key={`page-${index + 1}`}
                         onClick={() => setCurrentPage(index + 1)}
-                        style={{ margin: '5px', padding: '5px' }}
+                        style={{
+                            margin: '5px',
+                            padding: '5px',
+                            backgroundColor: currentPage === index + 1 ? 'rgb(222, 184, 135)' : 'white', // Cambia el color según tus preferencias
+                            color: currentPage === index + 1 ? 'white' : 'black', //
+                        }}
                     >
                         {index + 1}
                     </button>

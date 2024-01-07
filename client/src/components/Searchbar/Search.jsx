@@ -1,17 +1,34 @@
 import style from './Search.module.css'
 import { useState } from 'react';
 export default function SearchBar(props) {
-    const [dogs, dogSet] = useState('');
-    const handleDogs = (evento) => {
-        let { value } = evento.target;
-        dogSet(value);
+    const [dog, dogSet] = useState('');
+    const handleChange = (event) => {
+        dogSet(event.target.value);
     };
-    const handleClick = () =>{
-            props.onSearch(dogs);
-    }
-    return (  
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleClick();
+            handleClear();
+        }
+    };
+
+    const handleClick = () => {
+        props.onSearch(dog);
+    };
+
+    const handleClear = () => {
+        dogSet('');
+    };
+    return (
         <div className={style.SearchBar}>
-            <input className={style.input} type='search' onChange={handleDogs} onKeyPress={(e) => e.key === 'Enter' && handleClick()}/>
+            <input
+                className={style.input}
+                type='dog'
+                value={dog}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
+            />
             <button className={style.botun} onClick={handleClick}>Search</button>
         </div>
     )

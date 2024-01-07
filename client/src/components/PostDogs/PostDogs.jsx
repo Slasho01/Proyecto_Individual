@@ -81,8 +81,8 @@ const PostDogs = () => {
             setError(validation(({...razaData, [event.target.name]: event.target.value})))
         }
     }
-    const onSubmit = async () => {
-        //event.preventDefault();
+    const onSubmit = async (event) => {
+        event.preventDefault();
         const enviar = {
             ...razaData,
             temperament: selectedTemperaments.join(', ')
@@ -106,14 +106,14 @@ const PostDogs = () => {
                 <p>{errors.name}</p>
                 <label className={style.labels} >Height:</label>
                 <label className={style.labelsCointain}>
-                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='height' onChange={handleInputChange} value={razaData.height.imperial} />
-                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='height' onChange={handleInputChange} value={razaData.height.metric} />
+                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='height.imperial' onChange={handleInputChange} value={razaData.height.imperial} />
+                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='height.metric' onChange={handleInputChange} value={razaData.height.metric} />
                 </label>
                 
                 <label className={style.labels}>Weight:</label>
                 <label className={style.labelsCointain}>
-                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight' onChange={handleInputChange} value={razaData.weight.imperial} />
-                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight' onChange={handleInputChange} value={razaData.weight.metric} />
+                    Imperial: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight.imperial' onChange={handleInputChange} value={razaData.weight.imperial} />
+                    Metric: <input className={style.inputs} placeholder="10 - 10" type="text" name='weight.metric' onChange={handleInputChange} value={razaData.weight.metric} />
                 </label>
                 <label className={style.labelsCointain}>life_span: </label>
                 <input type="text" className={style.inputN} name='life_span' placeholder="10 - 10" onChange={handleInputChange} value={razaData.life_span} />

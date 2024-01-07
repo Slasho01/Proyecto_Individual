@@ -121,9 +121,22 @@ const postDog = async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 }
-
+const deleteDog = async (req,res) => {
+    const { id } = req.params
+    try {
+        const data = await Dog.destroy(
+            {where:{
+                        id: `${id}`,
+            }}
+        )
+        return res.status(201).json('Raza ya fue eliminada')     
+    } catch (error) {
+        return res.status(500).json({error: error.message})
+    }
+}
 module.exports = {
     getDogs,
     getDogsById,
     postDog,
+    deleteDog,
 };

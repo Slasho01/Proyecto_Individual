@@ -8,6 +8,7 @@ export const SEARCH_NAME = 'SEARCH_NAME'
 export const LAST_SEARCH = 'LAST_SEARCH'
 export const ORDER_BYOLD = 'ORDER_BYOLD'
 export const FILTER_TEMPERAMENT = 'FILTER_TEMPERAMENT'
+export const CLEAR_SEARCH = 'CLEAR_SEARCH'
 const URL = 'http://localhost:3001/dogs/';
 const URLT = 'http://localhost:3001/temperament';
 const URLS = 'http://localhost:3001/search/name?name='
@@ -78,18 +79,21 @@ export const getDogByName = (name) => async (dispatch, getState) => {
         } else {
           window.alert("Raza no encontrada");
         }
-      } else {
-        throw new Error('Error de conexión');
       }
-    } else if (name === "") {
-      const response1 = await axios.get(`${URL}`);
-      dispatch(setDogs(response1.data));
-      dispatch(lastSearch(''));
     }
   } catch (error) {
+    if(error.request.status===404){
+      window.alert('Error ' + error.request.status + ' No existe la raza')
+    } else if(error.request.status ===500)
+    {
+      window.alert('Error ' + error.request.status + ' error de coneion')
+    }
     console.error('Error', error);
   }
 };
+export const clearSearch = () => ({
+  type: CLEAR_SEARCH,
+});
 export const filterDogsByTemperaments = (selectedTemperaments) => {
   return {
     type: FILTER_TEMPERAMENT,

@@ -7,14 +7,12 @@ import style from './Cards.module.css'
 
 export default function Cards() {
     const dispatch = useDispatch();
-    //almacena la data de todos los dogs!!
-    const dogs = useSelector(state => state.dogs);
-    //cantidad de dogs que se mostraran por pagina
-    const dogsPerPage = 8;
-    //estado local donde se almacena la pagina actual
-    const [currentPage, setCurrentPage] = useState(1);
-    //usamos un dispatch para tomar todos los dogs
+    //selector para manejar el estado global de los temperamentos
     const temperaments = useSelector((state) => state.temperament);
+    const dogs = useSelector(state => state.dogs);
+    const dogsF = useSelector(state => state.search);
+    //Estados locales
+    const [currentPage, setCurrentPage] = useState(1);
     const [selectedTemperaments, setSelectedTemperaments] = useState([]);
     const [razaData, setRazaData] = useState({
         name: '',
@@ -29,22 +27,15 @@ export default function Cards() {
         life_span: '',
         image: '',
     });
-
+    //useffects
     useEffect(() => {
         dispatch(getAllTemperaments());
-    }, [dispatch]);
-
-    useEffect(() => {
         dispatch(getAllDogs());
     }, [dispatch]);
     useEffect(() => {
         handleFilterByTemperaments();
     }, [selectedTemperaments]);
-    //añadimos al estado local todos los dogs
-    //indexcacion y renderizado
-    const startIndex = (currentPage - 1) * dogsPerPage;
-    const endIndex = startIndex + dogsPerPage;
-    const dogsToShow = dogs.slice(startIndex, endIndex);
+
     //select filter
     const handleSelectChange = (event) => {
         const selectedName = event.target.options[event.target.selectedIndex].text;
@@ -78,6 +69,7 @@ export default function Cards() {
             });
         }
     }
+    //filtrado
     const handleFilterByTemperaments = () => {
         dispatch(filterDogsByTemperaments(selectedTemperaments));
     };
@@ -85,6 +77,11 @@ export default function Cards() {
     const handleOrderChange = (order) => {
         dispatch(orderDogs(order));
     };
+    //Paginacion
+    const dogsPerPage = 8;
+    const startIndex = (currentPage - 1) * dogsPerPage;
+    const endIndex = startIndex + dogsPerPage;
+    const dogsToShow = dogsF.length ===0 ? dogs.slice(startIndex, endIndex) : dogsF.slice(startIndex, endIndex);
     return (
         <div>
             <div className={style.selectMar}>
@@ -126,15 +123,15 @@ export default function Cards() {
                 />
             ))}
             <div>
-                {Array.from({ length: Math.ceil((dogs.length) / dogsPerPage) }, (_, index) => (
+                {Array.from({ length: Math.ceil((dogsF.length || dogs.length) / dogsPerPage) }, (_, index) => (
                     <button
                         key={`page-${index + 1}`}
                         onClick={() => setCurrentPage(index + 1)}
                         style={{
                             margin: '5px',
                             padding: '5px',
-                            backgroundColor: currentPage === index + 1 ? 'rgb(222, 184, 135)' : 'white', // Cambia el color según tus preferencias
-                            color: currentPage === index + 1 ? 'white' : 'black', //
+                            backgroundColor: currentPage === index + 1 ? 'rgb(222, 184, 135)' : 'white', 
+                            color: currentPage === index + 1 ? 'white' : 'black', 
                         }}
                     >
                         {index + 1}

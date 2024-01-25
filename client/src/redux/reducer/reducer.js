@@ -8,9 +8,9 @@ const initialState = {
   search: []
 };
 const verific = (data) => {
-  for (const i in data) {
-    if (data[i] === '' || !data[i]) {
-      data[i] = 0
+  for (const e in data) {
+    if (data[e] === '' || !data[e]) {
+      data[e] = 0
     }
   }
   return data
